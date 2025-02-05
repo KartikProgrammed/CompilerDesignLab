@@ -8,10 +8,10 @@ int is_operator(char c) {
 }
 
 int is_identifier(char *str) {
-    if (!isalpha(str[0]) && str[0] != '_')  // First character must be letter or '_'
+    if (!isalpha(str[0]) && str[0] != '_') 
         return 0;
     for (int i = 1; str[i] != '\0'; i++) {
-        if (!isalnum(str[i]) && str[i] != '_')  // All other characters must be alphanumeric or '_'
+        if (!isalnum(str[i]) && str[i] != '_') 
             return 0;
     }
     return 1;
@@ -26,19 +26,19 @@ void count_and_replace(FILE *input_file, FILE *output_file) {
         if (strstr(line, "scanf")) {
             scanf_count++;
             char *ptr = strstr(line, "scanf");
-            memmove(ptr + 4, ptr + 5, strlen(ptr + 5) + 1);  // Shift after "scanf"
-            strncpy(ptr, "read", 4);  // Replace with 'read'
+            memmove(ptr + 4, ptr + 5, strlen(ptr + 5) + 1); 
+            strncpy(ptr, "read", 4);
         }
 
         // Count and replace 'printf' statements
         if (strstr(line, "printf")) {
             printf_count++;
             char *ptr = strstr(line, "printf");
-            memmove(ptr + 5, ptr + 6, strlen(ptr + 6) + 1);  // Shift after "printf"
-            strncpy(ptr, "write", 5);  // Replace with 'write'
+            memmove(ptr + 5, ptr + 6, strlen(ptr + 6) + 1);
+            strncpy(ptr, "write", 5);
         }
 
-        fprintf(output_file, "%s", line);  // Write modified line to output file
+        fprintf(output_file, "%s", line); 
     }
 
     printf("Number of 'scanf' statements: %d\n", scanf_count);
@@ -102,19 +102,12 @@ int main() {
         return 1;
     }
 
-    // Task 1: Count and replace 'scanf' and 'printf'
     count_and_replace(input_file, output_file);
     printf("\n");
-
-    // Reset input file pointer for Task 2
     fclose(input_file);
     input_file = fopen("input.c", "r");
-
-    // Task 2: Count identifiers in the file
     count_identifiers(input_file);
     printf("\n");
-
-    // Task 3: Analyze a sample arithmetic expression
     const char *expression = "a + b * c - d / e = f";
     printf("Analyzing the expression: %s\n", expression);
     analyze_expression(expression);
